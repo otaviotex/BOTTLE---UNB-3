@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Médico</title>
+    <link rel="stylesheet" href="/static/logmedico.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Área do Médico</h1>
+        <h2 class="subtitulo">Insira seus dados</h2>
+
+        <form action="/login_medico" method="post" onsubmit="return validarMedico()">
+
+            <!-- CRM só números -->
+            <input type="text" 
+                   name="crm" 
+                   id="crm" 
+                   placeholder="Seu CRM"
+                   maxlength="10"
+                   required
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+            <!-- Senha -->
+            <div class="senha">
+                <input type="password" 
+                name="senha" 
+                id="senha" 
+                placeholder="Sua senha"
+                required>
+
+                <span id="toggleSenha" class="icone-olho">👁️</span>
+            </div>
+            <button onclick="window.location.href='/area_medico.html'"  
+                type="submit" id="entrar" 
+                disabled>Entrar
+            </button>
+        </form>
+
+        <!-- Botão Primeiro Acesso -->
+        <button onclick="window.location.href='/cadastro_medico'" 
+                style="margin-top: 12px; background-color: #4a4a4a;">
+            Primeiro Acesso
+        </button>
+
+    </div>
+
+    <script src="/static/script.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro do Médico</title>
+    <link rel="stylesheet" href="/static/logmedico.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Cadastro do Médico</h1>
+        <h2 class="subtitulo">Preencha seus dados</h2>
+
+        <form action="/salvar_medico" method="post" onsubmit="return validarCadastro()">
+
+            <!-- Nome -->
+            <input type="text"
+                   name="nome"
+                   id="nome"
+                   placeholder="Nome Completo"
+                   required
+                   oninput="this.value = this.value.replace(/[0-9]/g, '')">
+
+            <!-- Idade -->
+            <input type="text"
+                   name="idade"
+                   id="idade"
+                   placeholder="Idade"
+                   maxlength="3"
+                   required
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+            <!-- Gênero -->
+            <select name="genero" id="genero" required
+                style="
+                    width: 100%;
+                    padding: 10px 12px;
+                    border-radius: 10px;
+                    border: 1px solid #ccc;
+                    margin-bottom: 15px;
+                    font-size: 15px;
+                    box-sizing: border-box;
+                    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+                    color: #444;
+                ">
+                <option value="">Selecione o gênero</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outro">Outro</option>
+            </select>
+
+            <!-- CRM -->
+            <input type="text"
+                   name="crm"
+                   id="crm"
+                   placeholder="CRM"
+                   maxlength="10"
+                   required
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+            <!-- Especialidade com select -->
+            <select name="especialidade" id="especialidade" required
+                style="
+                    width: 100%;
+                    padding: 10px 12px;
+                    border-radius: 10px;
+                    border: 1px solid #ccc;
+                    margin-bottom: 15px;
+                    font-size: 15px;
+                    box-sizing: border-box;
+                    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+                    color: #444;
+                ">
+                <option value="" disabled selected>Selecione a especialidade</option>
+                <option value="Geriatria">Geriatria</option>
+                <option value="Pediatria">Pediatria</option>
+                <option value="Otorrinolaringologia">Otorrinolaringologia</option>
+                <option value="Cardiologia">Cardiologia</option>
+                <option value="Dermatologia">Dermatologia</option>
+                <option value="Oftalmologia">Oftalmologia</option>
+                <option value="Neurologia">Neurologia</option>
+                <option value="Ortopedia">Ortopedia</option>
+                <option value="Fisioterapia">Fisioterapia</option>
+                <option value="Urologia">Urologia</option>
+                <option value="Gastroenterologia">Gastroenterologia</option>
+                <option value="Ginecologia">Ginecologia</option>
+            </select>
+
+            <!-- Senha -->
+            <div class="senha">
+                <input type="password" 
+                name="senha" 
+                id="senha3" 
+                placeholder="Crie Sua Senha"
+                required>
+
+                <span id="toggleSenha3" class="icone-olho">👁️</span>
+            </div>
+
+            <!-- Confirmar Senha -->
+            <div class="senha">
+                <input type="password"
+                    name="confirmar-senha"
+                    id="confirmar-senha"
+                    placeholder="Confirme sua senha"
+                    required>
+                    
+                <span id="toggleSenha2" class="icone-olho">👁️</span>
+            </div>
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <!-- Voltar -->
+        <button onclick="window.location.href='/medico'"
+                style="margin-top: 12px; background-color: #4a4a4a;">
+            Voltar
+        </button>
+
+    </div>
+
+    <script src="/static/script.js" defer></script>
+
+</body>
+</html>

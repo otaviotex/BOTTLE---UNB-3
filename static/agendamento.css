@@ -1,0 +1,92 @@
+/* ======== GERAL ======== */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: black;
+}
+
+/* ======== CAIXA PRINCIPAL ======== */
+.caixa-agendamento {
+    background-color: #E4F2F5;
+    padding: 40px 60px;
+    border-radius: 12px;
+    border: 1px ridge rgb(220, 220, 221);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+}
+
+/* ======== TÍTULO ======== */
+.caixa-agendamento h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: -5px;
+    margin-bottom: 25px;
+    color: #2b2b2b;
+}
+
+/* ======== INPUTS — COM ESPAÇAMENTO MAIOR ======== */
+input,
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;     /* <-- ESPAÇAMENTO AUMENTADO */
+    font-size: 15px;
+    box-sizing: border-box;
+    background-color: white;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+input::placeholder,
+select:invalid {
+    color: #666;
+}
+
+/* Remove seta do NUMBER */
+input[type="number"] {
+    appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    display: none;
+}
+
+/* ======== BOTÕES ======== */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: #E4F2F5;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 5px;
+}
+
+button:hover:enabled {
+    transform: scale(1.05);
+    background-color: #222;
+}
+
+.voltar {
+    background-color: #5b5b5b !important;
+    margin-top: 10px;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 420px) {
+    .caixa-agendamento {
+        width: 80%;
+        padding: 40px 30px;
+    }
+}

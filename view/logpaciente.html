@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Paciente</title>
+    <link rel="stylesheet" href="/static/logpaciente.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Área do Paciente</h1>
+        <h2 class="subtitulo">Insira seus dados</h2>
+
+        <form action="/enviar" method="post" onsubmit="return validarFormulario()">
+
+            <!-- Nome sem números -->
+            <input type="text" name="nome" id="nome" placeholder="Seu nome"
+                   oninput="this.value = this.value.replace(/[0-9]/g, '')"
+                   required>
+
+            <!-- Telefone com máscara -->
+            <input type="tel" 
+                   name="telefone" 
+                   id="telefone" 
+                   placeholder="Seu número de telefone"
+                   oninput="mascaraTelefone(this)" 
+                   maxlength="15" 
+                   required>
+
+            <!-- Email -->
+            <input type="email" name="email" id="email"
+                   placeholder="seu@email.com"
+                   required oninput="validateFields()">
+
+            <button type="submit" id="entrar" disabled>Enviar</button>
+
+             <!-- Botão Menu Principal -->
+            <button type="button" onclick="window.location.href='/'" class="menu-principal">
+                Menu Principal
+            </button>
+        </form>
+
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

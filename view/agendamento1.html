@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento - Etapa 1</title>
+    <link rel="stylesheet" href="/static/agendamento.css">
+</head>
+<body>
+
+    <div class="caixa-agendamento">
+
+    <h1>Agendamento de Consulta</h1>
+
+    <form action="/agendamento_etapa1" method="post">
+
+        <!-- CAMPOS OCULTOS (dados do paciente) -->
+        <input type="hidden" name="nome" value="{{nome}}">
+        <input type="hidden" name="telefone" value="{{telefone}}">
+        <input type="hidden" name="email" value="{{email}}">
+
+        <!-- IDADE -->
+        <input type="number" name="idade" placeholder="Idade"
+            required min="0" max="120">
+
+        <!-- CONVÊNIO -->
+        <input type="text" name="convenio" placeholder="Convênio"
+            required oninput="this.value = this.value.replace(/[0-9]/g, '')">
+
+        <!-- ESPECIALIDADE -->
+        <select name="especialidade" required>
+            <option value="" disabled selected>Especialidade Médica</option>
+            <option value="Geriatria">Geriatria</option>
+            <option value="Pediatria">Pediatria</option>
+            <option value="Otorrinolaringologia">Otorrinolaringologia</option>
+            <option value="Cardiologia">Cardiologia</option>
+            <option value="Dermatologia">Dermatologia</option>
+            <option value="Oftalmologia">Oftalmologia</option>
+            <option value="Neurologia">Neurologia</option>
+            <option value="Ortopedia">Ortopedia</option>
+            <option value="Fisioterapia">Fisioterapia</option>
+            <option value="Urologia">Urologia</option>
+            <option value="Gastroenterologia">Gastroenterologia</option>
+            <option value="Ginecologia">Ginecologia</option>
+        </select>
+
+        <button type="submit">Próximo →</button>
+    </form>
+
+        <button class="voltar" onclick="window.location.href='/paciente'">
+            Voltar
+        </button>
+
+    </div>
+
+</body>
+</html>

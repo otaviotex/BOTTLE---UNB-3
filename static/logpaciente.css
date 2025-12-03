@@ -1,0 +1,96 @@
+/* ======== GERAL ======== */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ======== CAIXA PRINCIPAL (igual às caixas do site) ======== */
+.container {
+    background-color: #E4F2F5;
+    padding: 40px 60px;
+    border-radius: 12px;   /* <= IGUAL ao agend.css */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px ridge rgb(220, 220, 221);
+    text-align: center;
+    width: 300px;
+}
+
+/* ======== TÍTULOS ======== */
+h1 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #2b2b2b;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.subtitulo {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 25px;
+}
+
+/* ======== INPUTS ======== */
+input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;  /* <= IGUAL inputs da home */
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 15px;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ======== REMOVER SETAS ======== */
+input[type="tel"],
+input[type="number"] {
+    appearance: textfield;
+}
+
+input[type="tel"]::-webkit-inner-spin-button,
+input[type="tel"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    display: none;
+}
+
+/* ======== BOTÃO (bordas iguais ao agend) ======== */
+button {
+    width: 100%;
+    background-color: black;
+    color: #E4F2F5;
+    border: none;
+    padding: 10px;
+    border-radius: 12px;  /* <= igual aos cards que mudam no hover */
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+button:hover:enabled {
+    transform: scale(1.05);
+    background-color: #222;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 420px) {
+    .container {
+        width: 80%;
+        padding: 40px 30px;
+    }
+}

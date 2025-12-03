@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Minhas Consultas</title>
+    <link rel="stylesheet" href="/static/minhas_consultas.css">
+</head>
+<body>
+
+<div class="caixa-consultas">
+
+    <h1>Minhas Consultas</h1>
+
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Especialidade</th>
+            <th>Convênio</th>
+            <th>Ações</th>
+        </tr>
+
+        % for c in consultas:
+        <tr>
+            <td>{{c.data}}</td>
+            <td>{{c.hora}}</td>
+            <td>{{c.especialidade}}</td>
+            <td>{{c.convenio}}</td>
+            <td>
+                <form action="/cancelar_consulta/{{c.id}}" method="post"
+                      onsubmit="return confirm('Deseja realmente cancelar esta consulta?');">
+                    <button type="submit">Cancelar</button>
+                </form>
+            </td>
+        </tr>
+        % end
+    </table>
+
+    <a href="/paciente" class="voltar">Voltar</a>
+
+</div>
+
+</body>
+</html>

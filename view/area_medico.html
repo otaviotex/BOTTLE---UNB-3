@@ -1,0 +1,121 @@
+<!-- view/area_medico.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Médico</title>
+    <link rel="stylesheet" href="/static/area_medico.css">
+</head>
+<body>
+    <div class="top-bar">
+    Bem-vindo(a), Dr(a). {{nome}}!
+    </div>
+
+    <p>
+        Especialidade: <span id="especialidade-info">carregando...</span></p>
+
+    <section>
+        <h2>Pacientes que marcaram para sua especialidade</h2>
+        <table id="tabela-pacientes" border="1" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th>Paciente</th>
+                    <th>Idade</th>
+                    <th>Convênio</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Email</th>
+                    <th>Assumido por</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- preenchido por JS -->
+            </tbody>
+        </table>
+    </section>
+
+    <p><a href="/medico">Voltar ao menu</a></p>
+
+    <script>
+        const MEDICO_ID = "{{medico.id}}";
+        const MEDICO_NOME = "{{nome}}";
+
+        // carrega pacientes via API
+        async function carregarPacientes() {
+            const tbody = document.querySelector("#tabela-pacientes tbody");
+            tbody.innerHTML = "<tr><td colspan='8'>Carregando...</td></tr>";
+
+            const res = await fetch(`/api/pacientes_medico?medico_id=${MEDICO_ID}`);
+            if (!res.ok) {
+                tbody.innerHTML = "<tr><td colspan='8'>Erro ao carregar pacientes</td></tr>";
+                return;
+            }
+            const data = await res.json();
+
+            // atualiza info de especialidade (se houver ao menos 1)
+            if (data.length > 0) {
+                document.getElementById("especialidade-info").textContent = data[0].especialidade;
+            } else {
+                document.getElementById("especialidade-info").textContent = "Nenhuma consulta para sua especialidade";
+            }
+
+            tbody.innerHTML = "";
+            for (const c of data) {
+                const tr = document.createElement("tr");
+                tr.id = "row-" + c.id;
+
+                tr.innerHTML = `
+                    <td>${c.nome}</td>
+                    <td>${c.idade}</td>
+                    <td>${c.convenio}</td>
+                    <td>${c.data}</td>
+                    <td>${c.hora}</td>
+                    <td>${c.email}</td>
+                    <td class="col-assumido">${c.medico_nome ? c.medico_nome : "—"}</td>
+                    <td>
+                        <button ${c.medico_id ? "disabled" : ""} onclick="assumirPaciente(${c.id})">
+                            ${c.medico_id ? "Assumido" : "Assumir"}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            if (data.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='8'>Nenhuma consulta encontrada.</td></tr>";
+            }
+        }
+
+        async function assumirPaciente(pacienteId) {
+            const form = new URLSearchParams();
+            form.append("medico_id", MEDICO_ID);
+            form.append("paciente_id", pacienteId);
+
+            const res = await fetch("/assumir_paciente", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: form.toString()
+            });
+
+            const json = await res.json();
+
+            if (json.status === "ok") {
+                const row = document.getElementById("row-" + pacienteId);
+                row.querySelector(".col-assumido").textContent = json.medico_nome;
+                row.querySelector("button").disabled = true;
+                row.querySelector("button").textContent = "Assumido";
+            } else if (json.status === "taken") {
+                alert("Essa consulta já foi assumida por: " + json.medico_nome);
+                carregarPacientes();
+            } else {
+                alert("Erro ao assumir paciente: " + (json.message || "desconhecido"));
+            }
+        }
+
+        // carrega ao abrir
+        document.addEventListener("DOMContentLoaded", carregarPacientes);
+    </script>
+</body>
+</html>

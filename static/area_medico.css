@@ -1,0 +1,193 @@
+/* ===================== ESTILOS GERAIS ===================== */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #2b2b2b;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ===================== BARRA SUPERIOR ===================== */
+.top-bar {
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+
+    background-color: #E4F2F5; /* cor padrão */
+    font-size: 24px;
+    font-weight: 600;
+    color: #2b2b2b;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    /* Espaço extra abaixo da barra */
+    margin-bottom: 40px; /* ajuste conforme necessário */
+}
+
+/* ===================== CONTAINER PRINCIPAL ===================== */
+.container {
+    width: 90%;
+    max-width: 1100px;
+
+    margin: 70px auto;
+
+    background-color: #E4F2F5;
+    padding: 45px;
+    border-radius: 12px;
+    border: 1px ridge rgb(220, 220, 221);
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ===================== TÍTULO DA PÁGINA ===================== */
+h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Subtítulo (ex: Especialidade) */
+.subtitulo {
+    text-align: center;
+    font-size: 20px;
+    color: #444;
+
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+/* Linha decorativa */
+.linha {
+    width: 80%;
+    height: 2px;
+    margin: 25px auto 45px auto;
+
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.15), transparent);
+}
+
+/* ===================== TABELA ===================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+thead {
+    background: #d9ecf0;
+}
+
+thead th {
+    padding: 14px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2b2b;
+    border-bottom: 1px solid #c9dfe3;
+}
+
+tbody tr {
+    background: #ffffff;
+    transition: 0.2s;
+}
+
+tbody tr:nth-child(even) {
+    background: #f3f9fa;
+}
+
+tbody tr:hover {
+    background: #eef7f9;
+}
+
+tbody td {
+    padding: 14px;
+    font-size: 15px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+/* ===================== BOTÃO ASSUMIR ===================== */
+.btn-assumir {
+    padding: 8px 16px;
+    background-color: black;
+    color: #E4F2F5;
+    text-decoration: none;
+
+    border-radius: 12px;
+    font-size: 14px;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn-assumir:hover {
+    background-color: #E4F2F5;
+    color: black;
+    border: 1px solid black;
+    transform: scale(1.05);
+}
+
+/* ===================== BOTÃO VOLTAR ===================== */
+.voltar {
+    margin-top: 30px;
+    display: block;
+    width: 180px;
+    padding: 10px;
+    text-align: center;
+
+    background-color: #E4F2F5;
+    border: 1px solid #bfcfd4;
+    color: black;
+
+    border-radius: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: 0.3s;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.voltar:hover {
+    background-color: black;
+    color: #E4F2F5;
+    transform: scale(1.05);
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+@media (max-width: 800px) {
+
+    .container {
+        padding: 25px;
+        margin-top: 60px;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: 12px;
+        padding: 12px;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+    table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 5px;
+        border: none;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #2b2b2b;
+    }
+}
