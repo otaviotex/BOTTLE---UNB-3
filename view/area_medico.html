@@ -9,11 +9,10 @@
 </head>
 <body>
     <div class="top-bar">
-    Bem-vindo(a), Dr(a). {{nome}}!
+        Bem-vindo(a), Dr(a). {{nome}}!
     </div>
 
-    <p>
-        Especialidade: <span id="especialidade-info">carregando...</span></p>
+    <p>Especialidade: <span id="especialidade-info">carregando...</span></p>
 
     <section>
         <h2>Pacientes que marcaram para sua especialidade</h2>
@@ -41,51 +40,57 @@
     <script>
         const MEDICO_ID = "{{medico.id}}";
         const MEDICO_NOME = "{{nome}}";
+        const ESPECIALIDADE = "{{medico.especialidade}}";
 
-        // carrega pacientes via API
+        // --------------------------
+        // Carrega pacientes via API
+        // --------------------------
         async function carregarPacientes() {
             const tbody = document.querySelector("#tabela-pacientes tbody");
             tbody.innerHTML = "<tr><td colspan='8'>Carregando...</td></tr>";
 
             const res = await fetch(`/api/pacientes_medico?medico_id=${MEDICO_ID}`);
-            if (!res.ok) {
-                tbody.innerHTML = "<tr><td colspan='8'>Erro ao carregar pacientes</td></tr>";
-                return;
-            }
             const data = await res.json();
 
-            // atualiza info de especialidade (se houver ao menos 1)
+            // Atualiza info
             if (data.length > 0) {
                 document.getElementById("especialidade-info").textContent = data[0].especialidade;
             } else {
-                document.getElementById("especialidade-info").textContent = "Nenhuma consulta para sua especialidade";
+                document.getElementById("especialidade-info").textContent = ESPECIALIDADE;
             }
 
             tbody.innerHTML = "";
-            for (const c of data) {
-                const tr = document.createElement("tr");
-                tr.id = "row-" + c.id;
-
-                tr.innerHTML = `
-                    <td>${c.nome}</td>
-                    <td>${c.idade}</td>
-                    <td>${c.convenio}</td>
-                    <td>${c.data}</td>
-                    <td>${c.hora}</td>
-                    <td>${c.email}</td>
-                    <td class="col-assumido">${c.medico_nome ? c.medico_nome : "—"}</td>
-                    <td>
-                        <button ${c.medico_id ? "disabled" : ""} onclick="assumirPaciente(${c.id})">
-                            ${c.medico_id ? "Assumido" : "Assumir"}
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            }
+            for (const c of data) adicionarLinhaTabela(c);
 
             if (data.length === 0) {
                 tbody.innerHTML = "<tr><td colspan='8'>Nenhuma consulta encontrada.</td></tr>";
             }
+        }
+
+        function adicionarLinhaTabela(c) {
+            const tbody = document.querySelector("#tabela-pacientes tbody");
+
+            let tr = document.getElementById("row-" + c.id);
+            if (tr) return; // já existe → não recria
+
+            tr = document.createElement("tr");
+            tr.id = "row-" + c.id;
+
+            tr.innerHTML = `
+                <td>${c.nome}</td>
+                <td>${c.idade}</td>
+                <td>${c.convenio}</td>
+                <td>${c.data}</td>
+                <td>${c.hora}</td>
+                <td>${c.email}</td>
+                <td class="col-assumido">${c.medico_nome ? c.medico_nome : "—"}</td>
+                <td>
+                    <button ${c.medico_id ? "disabled" : ""} onclick="assumirPaciente(${c.id})">
+                        ${c.medico_id ? "Assumido" : "Assumir"}
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
         }
 
         async function assumirPaciente(pacienteId) {
@@ -104,18 +109,45 @@
             if (json.status === "ok") {
                 const row = document.getElementById("row-" + pacienteId);
                 row.querySelector(".col-assumido").textContent = json.medico_nome;
-                row.querySelector("button").disabled = true;
-                row.querySelector("button").textContent = "Assumido";
+                const btn = row.querySelector("button");
+                btn.disabled = true;
+                btn.textContent = "Assumido";
             } else if (json.status === "taken") {
                 alert("Essa consulta já foi assumida por: " + json.medico_nome);
                 carregarPacientes();
-            } else {
-                alert("Erro ao assumir paciente: " + (json.message || "desconhecido"));
+            } else if (json.status === "conflito") {
+                alert(json.msg); // exibe a mensagem de conflito
             }
         }
 
-        // carrega ao abrir
         document.addEventListener("DOMContentLoaded", carregarPacientes);
+
+        // --------------------------
+        // WEBSOCKET
+        // --------------------------
+        const ws = new WebSocket("ws://localhost:8080/ws");
+
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+
+            // NOVO AGENDAMENTO
+            if (data.tipo === "novo_agendamento") {
+                if (data.especialidade === ESPECIALIDADE) {
+                    adicionarLinhaTabela(data);
+                }
+            }
+
+            // PACIENTE ASSUMIDO
+            if (data.tipo === "paciente_assumido") {
+                const row = document.getElementById("row-" + data.paciente_id);
+                if (row) {
+                    row.querySelector(".col-assumido").textContent = data.medico_nome;
+                    const btn = row.querySelector("button");
+                    btn.disabled = true;
+                    btn.textContent = "Assumido";
+                }
+            }
+        };
     </script>
 </body>
 </html>
