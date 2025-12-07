@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- preenchido por JS -->
+
             </tbody>
         </table>
     </section>
@@ -42,9 +42,7 @@
         const MEDICO_NOME = "{{nome}}";
         const ESPECIALIDADE = "{{medico.especialidade}}";
 
-        // --------------------------
-        // Carrega pacientes via API
-        // --------------------------
+       
         async function carregarPacientes() {
             const tbody = document.querySelector("#tabela-pacientes tbody");
             tbody.innerHTML = "<tr><td colspan='8'>Carregando...</td></tr>";
@@ -71,7 +69,7 @@
             const tbody = document.querySelector("#tabela-pacientes tbody");
 
             let tr = document.getElementById("row-" + c.id);
-            if (tr) return; // já existe → não recria
+            if (tr) return; 
 
             tr = document.createElement("tr");
             tr.id = "row-" + c.id;
@@ -116,28 +114,24 @@
                 alert("Essa consulta já foi assumida por: " + json.medico_nome);
                 carregarPacientes();
             } else if (json.status === "conflito") {
-                alert(json.msg); // exibe a mensagem de conflito
+                alert(json.msg); 
             }
         }
 
         document.addEventListener("DOMContentLoaded", carregarPacientes);
 
-        // --------------------------
-        // WEBSOCKET
-        // --------------------------
+        
         const ws = new WebSocket("ws://localhost:8080/ws");
 
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
 
-            // NOVO AGENDAMENTO
             if (data.tipo === "novo_agendamento") {
                 if (data.especialidade === ESPECIALIDADE) {
                     adicionarLinhaTabela(data);
                 }
             }
 
-            // PACIENTE ASSUMIDO
             if (data.tipo === "paciente_assumido") {
                 const row = document.getElementById("row-" + data.paciente_id);
                 if (row) {
